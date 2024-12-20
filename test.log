@@ -1,0 +1,45 @@
+2024-12-20 20:45:07,574 - INFO - 4DIAC application loaded from 4diac_application.xml
+2024-12-20 20:45:07,575 - INFO - Input 'input1' set to 10 for FB1
+2024-12-20 20:45:07,575 - INFO - Input 'input2' set to 20 for FB1
+2024-12-20 20:45:07,575 - INFO - Executing FB1
+2024-12-20 20:45:07,575 - INFO - Output 'output1' calculated: 30
+2024-12-20 20:45:07,575 - INFO - [PASSED] Output 'output1' found in FB1
+2024-12-20 20:45:07,575 - INFO - [PASSED] Output 'output1' is not None in FB1
+2024-12-20 20:45:07,575 - INFO - Input 'input1' set to 30 for FB2
+2024-12-20 20:45:07,576 - INFO - Input 'input2' set to 30 for FB2
+2024-12-20 20:45:07,576 - INFO - Executing FB2
+2024-12-20 20:45:07,576 - INFO - Output 'output1' calculated: 60
+2024-12-20 20:45:07,576 - INFO - [PASSED] Output 'output1' found in FB2
+2024-12-20 20:45:07,576 - INFO - [PASSED] Output 'output1' is not None in FB2
+2024-12-20 20:45:07,576 - INFO - 
+Test Summary: 4 passed, 0 failed
+2024-12-20 20:45:07,576 - INFO - Graph execution completed
+2024-12-20 20:45:07,576 - INFO - Handling request with protocol HTTP
+2024-12-20 20:45:07,576 - INFO - [PASSED] HTTP response format is correct
+2024-12-20 20:45:07,577 - INFO - 
+Test Summary: 1 passed, 0 failed
+2024-12-20 20:45:07,577 - INFO - Handled request with protocol HTTP: HTTP/1.1 200 OK
+Content-Type: text/html
+
+<html><body>Hello, World!</body></html>
+2024-12-20 20:45:07,577 - INFO - Loading application from app.json
+2024-12-20 20:45:07,577 - INFO - Reading values from application data
+2024-12-20 20:45:07,577 - INFO - Creating graph with nodes ['A', 'B', 'C'] and edges [('A', 'B'), ('B', 'C')]
+2024-12-20 20:45:07,577 - INFO - [PASSED] Graph nodes count matches
+2024-12-20 20:45:07,577 - INFO - [PASSED] Edge ('A', 'B') found in graph
+2024-12-20 20:45:07,577 - INFO - [PASSED] Edge ('B', 'C') found in graph
+2024-12-20 20:45:07,577 - INFO - 
+Test Summary: 3 passed, 0 failed
+2024-12-20 20:45:07,577 - INFO - Graph created with nodes ['A', 'B', 'C'] and edges [('A', 'B'), ('B', 'C')]
+2024-12-20 20:45:07,578 - INFO - Playing graph {'A': ['B'], 'B': ['C'], 'C': []}
+2024-12-20 20:45:07,578 - INFO - Processing node A
+2024-12-20 20:45:07,578 - INFO - Event from A to B
+2024-12-20 20:45:07,578 - INFO - Processing node B
+2024-12-20 20:45:07,578 - INFO - Event from B to C
+2024-12-20 20:45:07,578 - INFO - Processing node C
+2024-12-20 20:45:07,578 - INFO - [PASSED] Node A has valid edges
+2024-12-20 20:45:07,578 - INFO - [PASSED] Node B has valid edges
+2024-12-20 20:45:07,578 - INFO - [PASSED] Node C has valid edges
+2024-12-20 20:45:07,578 - INFO - 
+Test Summary: 3 passed, 0 failed
+2024-12-20 20:45:07,578 - INFO - Graph from data played successfully
