@@ -1,0 +1,21 @@
+<Application Name="TestApplication">
+    <FB Name="FB1">
+        <InputVars>
+            <VarDeclaration Name="input1" />
+            <VarDeclaration Name="input2" />
+        </InputVars>
+        <OutputVars>
+            <VarDeclaration Name="output1" />
+        </OutputVars>
+    </FB>
+    <FB Name="FB2">
+        <InputVars>
+            <VarDeclaration Name="input1" />
+            <VarDeclaration Name="input2" />
+        </InputVars>
+        <OutputVars>
+            <VarDeclaration Name="output1" />
+        </OutputVars>
+    </FB>
+    <Connection SourceFB="FB1" DestFB="FB2" />
+</Application>
