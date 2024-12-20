@@ -3,6 +3,14 @@ import networkx as nx
 import threading
 import time
 import json
+import logging  # Добавлен модуль для логирования
+
+# Настройка логирования
+logging.basicConfig(
+    filename='test.log',  # Имя файла для логов
+    level=logging.INFO,   # Уровень логирования
+    format='%(asctime)s - %(levelname)s - %(message)s'  # Формат записи логов
+)
 
 class FunctionalBlock:
     def __init__(self, name):
@@ -12,7 +20,7 @@ class FunctionalBlock:
 
     def execute(self):
         # Логика выполнения функционального блока
-        print(f"Executing {self.name}")
+        logging.info(f"Executing {self.name}")
         # Проверка наличия ключей
         if 'input1' not in self.inputs:
             raise KeyError(f"Input 'input1' not found in {self.name}")
@@ -20,6 +28,7 @@ class FunctionalBlock:
             raise KeyError(f"Input 'input2' not found in {self.name}")
         # Пример простого вычисления
         self.outputs['output1'] = self.inputs['input1'] + self.inputs['input2']
+        logging.info(f"Output 'output1' calculated: {self.outputs['output1']}")
 
 class IEC61499Executor:
     def __init__(self):
@@ -49,6 +58,8 @@ class IEC61499Executor:
             target = connection.get('target')
             self.graph.add_edge(source, target)
 
+        logging.info(f"Application loaded from {xml_file}")
+
     def load_4diac_application(self, xml_file):
         tree = ET.parse(xml_file)
         root = tree.getroot()
@@ -72,9 +83,12 @@ class IEC61499Executor:
             target = connection.get('DestFB')
             self.graph.add_edge(source, target)
 
+        logging.info(f"4DIAC application loaded from {xml_file}")
+
     def read_values(self, fb_name, input_name, value):
         if fb_name in self.functional_blocks:
             self.functional_blocks[fb_name].inputs[input_name] = value
+            logging.info(f"Input '{input_name}' set to {value} for {fb_name}")
 
     def create_graph(self):
         # Граф уже создан при загрузке приложения
@@ -95,6 +109,7 @@ class IEC61499Executor:
                         self.read_values(successor, input_name, output_value)
 
         test_runner.summary()
+        logging.info("Graph execution completed")
 
     # Добавленные функции
     def handle_request(self, protocol_name, request):
@@ -107,6 +122,7 @@ class IEC61499Executor:
             test_runner.test_http_response(response)
         test_runner.summary()
 
+        logging.info(f"Handled request with protocol {protocol_name}: {response}")
         return response
 
     def load_application_json(self, app_path):
@@ -126,6 +142,7 @@ class IEC61499Executor:
         test_runner.test_graph_creation(graph, nodes, edges)
         test_runner.summary()
 
+        logging.info(f"Graph created with nodes {nodes} and edges {edges}")
         return graph
 
     def play_graph_from_data(self, graph):
@@ -138,12 +155,14 @@ class IEC61499Executor:
             test_runner.assert_true(len(edges) >= 0, f"Node {node} has valid edges")
         test_runner.summary()
 
+        logging.info("Graph from data played successfully")
+
 class ProtocolHandler:
     def __init__(self, protocol_name):
         self.protocol_name = protocol_name
 
     def handle_request(self, request):
-        print(f"Handling request with protocol {self.protocol_name}")
+        logging.info(f"Handling request with protocol {self.protocol_name}")
         # Логика обработки запроса по протоколу
         if self.protocol_name == 'HTTP':
             return self.handle_http_request(request)
@@ -157,7 +176,7 @@ class ProtocolHandler:
 
 class ApplicationLoader:
     def load_application(self, app_path):
-        print(f"Loading application from {app_path}")
+        logging.info(f"Loading application from {app_path}")
         # Логика загрузки приложения
         with open(app_path, 'r') as file:
             app_data = json.load(file)
@@ -165,7 +184,7 @@ class ApplicationLoader:
 
 class ApplicationReader:
     def read_values(self, app_data):
-        print(f"Reading values from application data")
+        logging.info("Reading values from application data")
         # Логика чтения значений из приложения
         values = {}
         # Пример: парсинг данных
@@ -175,7 +194,7 @@ class ApplicationReader:
 
 class GraphCreator:
     def create_graph(self, nodes, edges):
-        print(f"Creating graph with nodes {nodes} and edges {edges}")
+        logging.info(f"Creating graph with nodes {nodes} and edges {edges}")
         # Логика создания графа
         graph = {node: [] for node in nodes}
         for edge in edges:
@@ -184,12 +203,12 @@ class GraphCreator:
 
 class GraphPlayer:
     def play_graph(self, graph):
-        print(f"Playing graph {graph}")
+        logging.info(f"Playing graph {graph}")
         # Логика проигрывания графа и запуска событий
         for node, edges in graph.items():
-            print(f"Processing node {node}")
+            logging.info(f"Processing node {node}")
             for edge in edges:
-                print(f"Event from {node} to {edge}")
+                logging.info(f"Event from {node} to {edge}")
 
 # Класс для тестов
 class TestRunner:
@@ -200,13 +219,13 @@ class TestRunner:
     def assert_true(self, condition, message):
         if condition:
             self.passed_tests += 1
-            print(f"[PASSED] {message}")
+            logging.info(f"[PASSED] {message}")
         else:
             self.failed_tests += 1
-            print(f"[FAILED] {message}")
+            logging.error(f"[FAILED] {message}")
 
     def summary(self):
-        print(f"\nTest Summary: {self.passed_tests} passed, {self.failed_tests} failed")
+        logging.info(f"\nTest Summary: {self.passed_tests} passed, {self.failed_tests} failed")
         if self.failed_tests > 0:
             raise AssertionError("Some tests failed!")
 
